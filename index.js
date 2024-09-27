@@ -1,3 +1,7 @@
+require("dotenv").config()
+console.log(process.env.MONGO_URL);
+
+
 const express =require("express");
 const mongoose=require("mongoose");
 const app=express();
@@ -14,7 +18,7 @@ app.use("/api/v1/course",courseRouter);
 
 async function main() {
     
-    mongoose.connect("mongodb+srv://subhrodeep14:Babi12345@cluster0.8v36z.mongodb.net/project-01");
+    mongoose.connect(process.env.MONGO_URL);
     app.listen(3000);
     console.log("cholche vai");
      
