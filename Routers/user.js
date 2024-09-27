@@ -4,7 +4,8 @@ const userRouter=Router();
 const z=require("zod");
 const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
-const JWT_USER_PASSWORD="BDEIUOF";
+const {JWT_USER_PASSWORD}=require("../config");
+const {authUser}=require("../middlewares/auth_user");
 
 
 
@@ -64,7 +65,7 @@ userRouter.post("/signin",async function(req,res){
     }
 });
 
-userRouter.get("/purchases",function(req,res){
+userRouter.get("/purchases",authUser,function(req,res){
 
 });
 

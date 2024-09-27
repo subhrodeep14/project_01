@@ -4,7 +4,8 @@ const adminRouter=Router();
 const z=require("zod");
 const jwt=require("jsonwebtoken");
 const bcrypt=require("bcrypt");
-const JWT_ADMIN_PASSWORD="uidahbd"
+const {JWT_ADMIN_PASSWORD}=require("../config");
+const {authAdmin}=require("../middlewares/auth_admin");
 
 
 adminRouter.post("/signup",async(req,res)=>{
@@ -68,11 +69,11 @@ adminRouter.post("/signin",async(req,res)=>{
     }
 });
 
-adminRouter.post("/course",(req,res)=>{
+adminRouter.post("/course",authAdmin,(req,res)=>{
 
 });
 
-adminRouter.get("/course/bulk",(req,res)=>{
+adminRouter.get("/course/bulk",authAdmin,(req,res)=>{
 
 });
 
