@@ -4,6 +4,7 @@ const adminRouter=Router();
 const z=require("zod");
 const jwt=require("jsonwebtoken");
 const bcrypt=require("bcrypt");
+const JWT_ADMIN_PASSWORD="uidahbd"
 
 
 adminRouter.post("/signup",async(req,res)=>{
@@ -34,8 +35,9 @@ try{
         firstName:firstName,
         lastName:lastName
     });
-
-    res,json({
+    console.log("created");
+    
+    res.json({
         message:"you are sign up"
     });
 }catch(e){
@@ -45,8 +47,25 @@ try{
     }
 });
 
-adminRouter.post("/signin",(req,res)=>{
+adminRouter.post("/signin",async(req,res)=>{
+    const {email,password}=req.body;
 
+    const admin=await adminModel.findOne({
+        email
+    });
+    if(admin){
+       const token=jwt.sign({
+        id:admin._id
+       },JWT_ADMIN_PASSWORD)
+    
+    res.json({
+        token:token
+    })
+    }else{
+        res.status(403).json({
+            message:"incorect"
+        })
+    }
 });
 
 adminRouter.post("/course",(req,res)=>{

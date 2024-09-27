@@ -3,6 +3,9 @@ const{userModel}=require("../db")
 const userRouter=Router();
 const z=require("zod");
 const bcrypt=require("bcrypt");
+const jwt=require("jsonwebtoken");
+const JWT_USER_PASSWORD="BDEIUOF";
+
 
 
 
@@ -39,8 +42,26 @@ userRouter.post("/signup",async function(req,res){
 
 });
 
-userRouter.post("/signin",function(req,res){
+userRouter.post("/signin",async function(req,res){
+    const {email,password}=req.body;
 
+    const user=await userModel.findOne({
+        email,
+        password
+    });
+    if(user){
+       const token=jwt.sign({
+        id:user._id
+       },JWT_USER_PASSWORD)
+    
+    res.json({
+        token:token
+    })
+    }else{
+        res.status(403).json({
+            message:"incorect"
+        })
+    }
 });
 
 userRouter.get("/purchases",function(req,res){
