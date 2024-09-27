@@ -25,12 +25,12 @@ adminRouter.post("/signup",async(req,res)=>{
     }
 
     const {email,password,firstName,lastName}= req.body;
-   // const hashPassword=await bcrypt.hash(password,5);
+    const hashPassword=await bcrypt.hash(password,5);
 
 try{
     await adminModel.create({
         email:email,
-        password:password,
+        password:hashPassword,
         firstName:firstName,
         lastName:lastName
     });

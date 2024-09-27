@@ -2,6 +2,7 @@ const {Router}=require("express");
 const{userModel}=require("../db")
 const userRouter=Router();
 const z=require("zod");
+const bcrypt=require("bcrypt");
 
 
 
@@ -23,11 +24,11 @@ userRouter.post("/signup",async function(req,res){
     }
 
     const {email,password,firstName,lastName}= req.body;
-   // const hashPassword=await bcrypt.hash(password,5);
+    const hashPassword=await bcrypt.hash(password,5);
 
     await userModel.create({
         email:email,
-        password:password,
+        password:hashPassword,
         firstName:firstName,
         lastName:lastName
     });
