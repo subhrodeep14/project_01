@@ -4,7 +4,7 @@ const {JWT_ADMIN_PASSWORD}=require("../config");
 
 
 function authAdmin(req,res,next){
-    const token =req.heders.token;
+    const token =req.headers.token;
 
     const decoded=jwt.verify(token,JWT_ADMIN_PASSWORD);
 
