@@ -47,10 +47,11 @@ userRouter.post("/signin",async function(req,res){
     const {email,password}=req.body;
 
     const user=await userModel.findOne({
-        email,
-        password
+        email
     });
-    if(user){
+
+    const response=bcrypt.compare(password,user.password);
+    if(response){
        const token=jwt.sign({
         id:user._id
        },JWT_USER_PASSWORD)

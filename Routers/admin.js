@@ -54,9 +54,12 @@ adminRouter.post("/signin",async(req,res)=>{
     const admin=await adminModel.findOne({
         email
     });
-    if(admin){
+    console.log(admin.password);
+    
+    const response=bcrypt.compare(password,admin.password);
+    if(response){
        const token=jwt.sign({
-        id:admin._id
+        id:response._id
        },JWT_ADMIN_PASSWORD)
     
     res.json({
