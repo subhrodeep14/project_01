@@ -1,5 +1,5 @@
 const {Router}=require("express");
-const{userModel}=require("../db")
+const{userModel,purchaseModel,courseModel}=require("../db")
 const userRouter=Router();
 const z=require("zod");
 const bcrypt=require("bcrypt");
@@ -66,8 +66,24 @@ userRouter.post("/signin",async function(req,res){
     }
 });
 
-userRouter.get("/purchases",authUser,function(req,res){
+userRouter.get("/purchases",authUser,async function(req,res){
+    const userId=req.userId;
 
+   const purchases= await purchaseModel.find({
+        userId
+    });
+    let purchaseCourseId=[];
+    for(let i=0;i<purchases.length;i++){
+        purchaseCourseId.push(purchases[i].courseId)
+    }
+    const coursesData = await courseModel.find({
+        _id: { $in: purchaseCourseId }
+    })
+
+    res.json({
+        purchases,
+        coursesData
+    })
 });
 
 module.exports={
